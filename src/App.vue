@@ -13,6 +13,11 @@ export default {
       userEmail: ''
     }
   },
+  mounted(){
+    if(localStorage.users){
+      this.users= localStorage.users
+    }
+  },
   methods: {
     sendData() {
       if (this.userName === '') {
@@ -36,6 +41,10 @@ export default {
           department: this.userDepartment,
           email: this.userEmail
         })
+        this.userName = ''
+        this.userSurname = ''
+        this.userDepartment = ''
+        this.userEmail = ''
       } else {
         if (this.users.find(el => el.email === this.userEmail)) {
           this.error = 'Already exist'
@@ -64,10 +73,16 @@ export default {
 <template>
   <h2 class="title">List of employers</h2>
   <form class="task-form">
-    <fieldset>
+    <fieldset class="border-form">
       <input type="text" v-model="userName" placeholder="Name" class="input">
       <input type="text" v-model="userSurname" placeholder="Surname" class="input">
-      <input type="text" v-model="userDepartment" placeholder="Department" class="input">
+      <select v-model="userDepartment" class="input">
+        <option disabled value="">Department</option>
+        <option>Purchasing</option>
+        <option>IT</option>
+        <option>Sales</option>
+        <option>Marketing</option>
+      </select>
       <input type="email" v-model="userEmail" placeholder="Email" class="input">
     </fieldset>
   </form>
@@ -115,8 +130,8 @@ export default {
   padding: 1rem 10rem;
   border-radius: 0.5rem;
   transition: 0.6s;
-  position: relative;
-  left: 39%;
+  margin: 0 auto;
+  display: block;
 }
 
 .submit-btn:hover {
@@ -157,5 +172,11 @@ h3 {
 .table td {
   border: 1px solid #dddddd;
   padding: 5px;
+}
+.border-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
 }
 </style>
